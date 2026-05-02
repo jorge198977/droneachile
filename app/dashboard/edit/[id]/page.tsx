@@ -1,13 +1,13 @@
 'use client'
 
-import { useState, useEffect, use } from 'react'
+import { useState, useEffect } from 'react'
 import { useRouter } from 'next/navigation'
 import type { Region, Category } from '@/lib/types'
 import { getYouTubeId, getYouTubeThumbnail } from '@/lib/types'
 
-export default function EditPage({ params }: { params: Promise<{ id: string }> }) {
+export default function EditPage({ params }: { params: { id: string } }) {
   const router = useRouter()
-  const { id } = use(params)
+  const { id } = params
   
   const [regions, setRegions] = useState<Region[]>([])
   const [categories, setCategories] = useState<Category[]>([])
