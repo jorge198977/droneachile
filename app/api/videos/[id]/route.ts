@@ -59,7 +59,7 @@ export async function PATCH(request: NextRequest, { params }: Params) {
   }
 
   const body = await request.json()
-  const { title, description, region_id } = body
+  const { title, description, region_id, category_ids } = body
 
   const { data: updated, error } = await supabase
     .from('videos')
@@ -69,6 +69,17 @@ export async function PATCH(request: NextRequest, { params }: Params) {
     .single()
 
   if (error) return NextResponse.json({ error: error.message }, { status: 400 })
+
+  if (category_ids !== undefined) {
+    await supabase.from('video_categories').delete().eq('video_id', id)
+    if (category_ids.length > 0) {
+      const categoryRows = category_ids.map((cid: number) => ({
+        video_id: id,
+        category_id: cid,
+      }))
+      await supabase.from('video_categories').insert(categoryRows)
+    }
+  }
 
   return NextResponse.json({ video: updated })
 }
