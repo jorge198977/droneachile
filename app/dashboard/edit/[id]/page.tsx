@@ -169,9 +169,12 @@ export default function EditPage({ params }: { params: { id: string } }) {
 
           {/* Region */}
           <div>
-            <label htmlFor="video-region" className="label">Región</label>
+            <label htmlFor="video-region" className="label">
+              Región <span className="text-red-400">*</span>
+            </label>
             <select
               id="video-region"
+              required
               value={form.region_id}
               onChange={e => setForm(f => ({ ...f, region_id: e.target.value }))}
               className="input"

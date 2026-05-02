@@ -61,6 +61,10 @@ export async function PATCH(request: NextRequest, { params }: Params) {
   const body = await request.json()
   const { title, description, region_id, category_ids } = body
 
+  if (!title || !region_id) {
+    return NextResponse.json({ error: 'Título y Región son requeridos' }, { status: 400 })
+  }
+
   const { data: updated, error } = await supabase
     .from('videos')
     .update({ title, description, region_id })

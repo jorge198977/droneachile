@@ -75,8 +75,8 @@ export async function POST(request: NextRequest) {
   const body = await request.json()
   const { title, description, video_url, region_id, category_ids } = body
 
-  if (!title || !video_url) {
-    return NextResponse.json({ error: 'Título y URL del video son requeridos' }, { status: 400 })
+  if (!title || !video_url || !region_id) {
+    return NextResponse.json({ error: 'Título, URL del video y Región son requeridos' }, { status: 400 })
   }
 
   // Auto-generate thumbnail from YouTube URL
