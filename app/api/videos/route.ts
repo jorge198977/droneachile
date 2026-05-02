@@ -51,7 +51,7 @@ export async function GET(request: NextRequest) {
   }
 
   // Auto-fill thumbnails from YouTube
-  const enriched = (videos ?? []).map(v => ({
+  const enriched = ((videos as any[]) ?? []).map((v: any) => ({
     ...v,
     thumbnail_url: v.thumbnail_url || getYouTubeThumbnail(v.video_url),
   }))
