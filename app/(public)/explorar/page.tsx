@@ -1,6 +1,7 @@
 'use client'
 
 import { useState, useEffect, useCallback } from 'react'
+import Image from 'next/image'
 import VideoCard from '@/components/VideoCard'
 import type { Video, Region, Category } from '@/lib/types'
 
@@ -68,10 +69,14 @@ export default function ExplorarPage() {
   return (
     <div className="min-h-screen">
       {/* Header */}
-      <div className="relative border-b border-drone-border bg-drone-surface py-12 px-4">
-        <div className="max-w-7xl mx-auto">
-          <h1 className="font-display font-bold text-4xl text-white mb-2">Explorar</h1>
-          <p className="text-slate-400">Descubre videos aéreos de todo Chile</p>
+      <div className="relative border-b border-drone-border py-24 px-4 overflow-hidden">
+        <div className="absolute inset-0 z-0">
+          <Image src="/hero-bg.png" alt="Explorar Chile" fill className="object-cover opacity-60" priority />
+          <div className="absolute inset-0 bg-gradient-to-b from-drone-bg/40 via-drone-bg/20 to-drone-bg" />
+        </div>
+        <div className="relative z-10 max-w-7xl mx-auto text-center mt-8">
+          <h1 className="font-display font-black text-5xl md:text-6xl text-white mb-4 drop-shadow-xl">Explorar</h1>
+          <p className="text-xl text-slate-200 drop-shadow-md font-medium">Descubre videos aéreos de todo Chile</p>
         </div>
       </div>
 

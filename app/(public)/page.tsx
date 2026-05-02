@@ -62,51 +62,32 @@ export default async function HomePage() {
     <>
       {/* ── HERO ── */}
       <section className="relative min-h-screen flex items-center justify-center overflow-hidden">
-        {/* Background gradient */}
-        <div className="absolute inset-0 bg-hero-gradient" />
-        {/* Animated orbs */}
-        <div className="absolute top-1/4 left-1/4 w-96 h-96 bg-sky-500/10 rounded-full blur-3xl animate-pulse-slow" />
-        <div className="absolute bottom-1/4 right-1/4 w-64 h-64 bg-blue-600/10 rounded-full blur-3xl animate-pulse-slow" style={{ animationDelay: '1.5s' }} />
-        {/* Grid overlay */}
-        <div
-          className="absolute inset-0 opacity-[0.03]"
-          style={{
-            backgroundImage: 'linear-gradient(rgba(14,165,233,1) 1px, transparent 1px), linear-gradient(90deg, rgba(14,165,233,1) 1px, transparent 1px)',
-            backgroundSize: '60px 60px',
-          }}
-        />
+        {/* Video Background */}
+        <div className="absolute inset-0 z-0">
+          <video
+            autoPlay
+            loop
+            muted
+            playsInline
+            className="w-full h-full object-cover"
+          >
+            <source src="/hero-video.mp4" type="video/mp4" />
+          </video>
+          {/* Gradient overlays to merge video with dark theme and ensure text readability */}
+          <div className="absolute inset-0 bg-drone-bg/60" />
+          <div className="absolute inset-0 bg-gradient-to-b from-drone-bg/90 via-transparent to-drone-bg" />
+        </div>
 
-        <div className="relative z-10 text-center px-4 sm:px-6 max-w-5xl mx-auto animate-slide-up">
+        {/* Animated orbs (reduced opacity) */}
+        <div className="absolute top-1/4 left-1/4 w-96 h-96 bg-sky-500/10 rounded-full blur-3xl animate-pulse-slow z-0" />
+        <div className="absolute bottom-1/4 right-1/4 w-64 h-64 bg-blue-600/10 rounded-full blur-3xl animate-pulse-slow z-0" style={{ animationDelay: '1.5s' }} />
 
-          {/* ── BIG LOGO HEADER ── */}
-          <div className="flex flex-col items-center mb-8">
-            {/* Logo container con glow */}
-            <div className="relative mb-4">
-              {/* Glow ring exterior */}
-              <div className="absolute inset-0 rounded-3xl bg-sky-400/20 blur-2xl scale-110 animate-pulse-slow" />
-              {/* Logo card */}
-              <div className="relative w-64 h-64 drop-shadow-[0_0_30px_rgba(14,165,233,0.5)]">
-                <Image
-                  src="/logo-v2.png"
-                  alt="DroneaChile"
-                  width={256}
-                  height={256}
-                  className="w-full h-full object-contain"
-                  priority
-                />
-              </div>
-            </div>
-            {/* Brand name */}
-            <h2 className="font-display font-black text-3xl text-white tracking-tight">
-              Dronea<span className="text-sky-400">Chile</span>
-            </h2>
-            <p className="text-sky-400/70 text-sm font-medium mt-1 tracking-widest uppercase">
-              La comunidad aérea de Chile
-            </p>
-          </div>
+        <div className="relative z-10 text-center px-4 sm:px-6 max-w-5xl mx-auto animate-slide-up pt-48 lg:pt-64">
+          
+          {/* No logo image, letting the background video's logo shine */}
 
-          {/* ── Headline ── */}
-          <h1 className="font-display font-black text-5xl sm:text-6xl lg:text-7xl text-white mb-6 leading-tight">
+          {/* Headline */}
+          <h1 className="font-display font-black text-5xl sm:text-6xl lg:text-7xl text-white mb-6 leading-tight drop-shadow-2xl">
             Chile desde
             <br />
             <span className="text-transparent bg-clip-text bg-gradient-to-r from-sky-400 to-blue-500">
@@ -114,19 +95,19 @@ export default async function HomePage() {
             </span>
           </h1>
 
-          <p className="text-slate-300 text-lg sm:text-xl max-w-2xl mx-auto mb-10 leading-relaxed">
+          <p className="text-slate-100 text-lg sm:text-xl max-w-2xl mx-auto mb-10 leading-relaxed drop-shadow-lg font-medium">
             Descubre, comparte y vive Chile desde el aire. Videos aéreos de las 16 regiones,
             capturados por la comunidad de pilotos de drones más grande del país.
           </p>
 
           <div className="flex flex-col sm:flex-row gap-4 justify-center">
-            <Link href="/explorar" id="hero-explore-btn" className="btn-primary text-base px-8 py-4">
+            <Link href="/explorar" id="hero-explore-btn" className="btn-primary text-base px-8 py-4 shadow-xl shadow-sky-500/20">
               <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                 <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
               </svg>
               Explorar videos
             </Link>
-            <Link href="/auth/register" id="hero-join-btn" className="btn-secondary text-base px-8 py-4">
+            <Link href="/auth/register" id="hero-join-btn" className="btn-secondary text-base px-8 py-4 shadow-xl backdrop-blur-md">
               <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                 <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 4v16m8-8H4" />
               </svg>
@@ -135,7 +116,7 @@ export default async function HomePage() {
           </div>
 
           {/* Stats */}
-          <div className="flex flex-wrap gap-8 justify-center mt-16 text-center">
+          <div className="flex flex-wrap gap-8 justify-center mt-16 text-center drop-shadow-lg">
             {[
               { value: '16', label: 'Regiones' },
               { value: '100%', label: 'Contenido aéreo' },
@@ -143,7 +124,7 @@ export default async function HomePage() {
             ].map((stat) => (
               <div key={stat.label}>
                 <div className="text-3xl font-bold font-display text-sky-400">{stat.value}</div>
-                <div className="text-slate-400 text-sm mt-1">{stat.label}</div>
+                <div className="text-white font-medium text-sm mt-1">{stat.label}</div>
               </div>
             ))}
           </div>

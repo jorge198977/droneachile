@@ -302,7 +302,9 @@ insert into public.categories (name) values
   ('Lagos y Ríos'),
   ('Glaciares'),
   ('Volcanes'),
-  ('Patrimonio')
+  ('Patrimonio'),
+  ('Valle'),
+  ('Campo')
 on conflict do nothing;
 
 -- ============================================================
