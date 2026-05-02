@@ -43,7 +43,9 @@ export default function RegisterPage() {
     setLoading(false)
 
     // Auto-login if email confirmation is off
-    setTimeout(() => router.push('/dashboard'), 2000)
+    setTimeout(() => {
+      window.location.href = '/dashboard'
+    }, 2000)
   }
 
   return (
