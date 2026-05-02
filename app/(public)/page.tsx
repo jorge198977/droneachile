@@ -4,9 +4,8 @@ import VideoCard from '@/components/VideoCard'
 import type { Video, Region } from '@/lib/types'
 
 async function getVideos(sort = 'created_at'): Promise<Video[]> {
-  const base = process.env.NEXT_PUBLIC_SUPABASE_URL
-    ? `${process.env.NEXT_PUBLIC_SITE_URL ?? 'http://localhost:3000'}`
-    : 'http://localhost:3000'
+  const base = process.env.NEXT_PUBLIC_SITE_URL
+    || (process.env.VERCEL_URL ? `https://${process.env.VERCEL_URL}` : 'http://localhost:3000')
 
   try {
     const res = await fetch(`${base}/api/videos?pageSize=8&sort=${sort}`, {
@@ -21,7 +20,8 @@ async function getVideos(sort = 'created_at'): Promise<Video[]> {
 }
 
 async function getRegions(): Promise<Region[]> {
-  const base = process.env.NEXT_PUBLIC_SITE_URL ?? 'http://localhost:3000'
+  const base = process.env.NEXT_PUBLIC_SITE_URL
+    || (process.env.VERCEL_URL ? `https://${process.env.VERCEL_URL}` : 'http://localhost:3000')
   try {
     const res = await fetch(`${base}/api/regions`, { next: { revalidate: 3600 } })
     if (!res.ok) return []
