@@ -2,34 +2,39 @@ import Link from 'next/link'
 import Image from 'next/image'
 import VideoCard from '@/components/VideoCard'
 import type { Video, Region } from '@/lib/types'
+import { createClient } from '@/lib/supabase/server'
+import { getYouTubeThumbnail } from '@/lib/types'
 
 async function getVideos(sort = 'created_at'): Promise<Video[]> {
-  const base = process.env.NEXT_PUBLIC_SITE_URL
-    || (process.env.VERCEL_URL ? `https://${process.env.VERCEL_URL}` : 'http://localhost:3000')
+  const supabase = await createClient()
+  let query = supabase
+    .from('videos')
+    .select(`
+      *,
+      region:regions(id, name, slug),
+      profile:profiles(id, name, avatar_url)
+    `)
+    .eq('status', 'published')
+    .range(0, 7)
 
-  try {
-    const res = await fetch(`${base}/api/videos?pageSize=8&sort=${sort}`, {
-      next: { revalidate: 60 },
-    })
-    if (!res.ok) return []
-    const json = await res.json()
-    return json.data ?? []
-  } catch {
-    return []
+  if (sort === 'trending') {
+    query = query.order('likes_count', { ascending: false })
+  } else {
+    query = query.order('created_at', { ascending: false })
   }
+
+  const { data: videos } = await query
+  
+  return ((videos as any[]) ?? []).map((v: any) => ({
+    ...v,
+    thumbnail_url: v.thumbnail_url || getYouTubeThumbnail(v.video_url),
+  }))
 }
 
 async function getRegions(): Promise<Region[]> {
-  const base = process.env.NEXT_PUBLIC_SITE_URL
-    || (process.env.VERCEL_URL ? `https://${process.env.VERCEL_URL}` : 'http://localhost:3000')
-  try {
-    const res = await fetch(`${base}/api/regions`, { next: { revalidate: 3600 } })
-    if (!res.ok) return []
-    const json = await res.json()
-    return json.regions ?? []
-  } catch {
-    return []
-  }
+  const supabase = await createClient()
+  const { data } = await supabase.from('regions').select('*').order('name')
+  return data ?? []
 }
 
 const REGION_ICONS: Record<string, string> = {
