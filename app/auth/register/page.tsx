@@ -54,8 +54,8 @@ export default function RegisterPage() {
       <div className="relative z-10 w-full max-w-md animate-slide-up">
         <div className="text-center mb-8">
           <Link href="/" className="inline-flex flex-col items-center gap-2">
-            <div className="w-24 h-24 flex-shrink-0 drop-shadow-[0_0_15px_rgba(14,165,233,0.4)]">
-              <Image src="/logo-v2.png" alt="DroneaChile" width={96} height={96} className="w-full h-full object-contain" />
+            <div className="w-20 h-20 flex-shrink-0 drop-shadow-[0_0_15px_rgba(14,165,233,0.4)]">
+              <Image src="/logo-cropped.png" alt="DroneaChile" width={80} height={80} className="w-full h-full object-contain" />
             </div>
             <span className="font-display font-bold text-2xl text-white">Dronea<span className="text-sky-400">Chile</span></span>
           </Link>
