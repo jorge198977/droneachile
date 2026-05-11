@@ -41,6 +41,29 @@ export default function AdminPage() {
     setActionLoading(null)
   }
 
+  const handleDelete = async (videoId: string) => {
+    if (!confirm('¿Estás seguro de que deseas eliminar este video permanentemente?')) return
+    
+    setActionLoading(videoId)
+    try {
+      const res = await fetch(`/api/videos/${videoId}`, {
+        method: 'DELETE',
+      })
+
+      if (res.ok) {
+        setVideos(prev => prev.filter(v => v.id !== videoId))
+      } else {
+        const data = await res.json()
+        alert(`Error al eliminar: ${data.error || 'Desconocido'}`)
+      }
+    } catch (error) {
+      console.error(error)
+      alert('Error al eliminar el video')
+    } finally {
+      setActionLoading(null)
+    }
+  }
+
   return (
     <div className="space-y-8 animate-fade-in">
       <div>
@@ -133,6 +156,17 @@ export default function AdminPage() {
                           {actionLoading === video.id ? '...' : '❌ Rechazar'}
                         </button>
                       </div>
+                    </div>
+                  )}
+                  {filter === 'published' && (
+                    <div className="flex pt-2">
+                      <button
+                        onClick={() => handleDelete(video.id)}
+                        disabled={actionLoading === video.id}
+                        className="px-4 py-2 bg-red-500/10 hover:bg-red-500/20 text-red-400 border border-red-500/20 rounded-xl text-sm font-medium transition-all disabled:opacity-50"
+                      >
+                        {actionLoading === video.id ? 'Eliminando...' : '🗑️ Eliminar Video'}
+                      </button>
                     </div>
                   )}
                 </div>
